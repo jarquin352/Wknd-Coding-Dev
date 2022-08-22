@@ -1,6 +1,7 @@
 import json
 import requests
 from bs4 import BeautifulSoup
+
 #function takes in a bs4 data structure & turns it into a dict....
 def bs4_to_dict(name1,val1):
     ret_dict = {}

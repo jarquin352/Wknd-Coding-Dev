@@ -29,7 +29,7 @@ def extract_contents(name_url):
         result_lst.append(i['href'])
     #return result_lst
     new_lst_dt = []
-    for i in range(0,len(result_lst)):
+    for i in range(0,len(result_lst)): #len(result_lst) instead of 2
         str_curr = re.search('datasets/',result_lst[i], re.I)
         if str_curr == None or str_curr == 'datasets.php?':
             continue
@@ -50,12 +50,11 @@ def extract_contents(name_url):
             sleep(0.03)
             bar()
     final_dict = lst_to_dict(new_lst_dt,second_lst_url)
-    
+    final_dict = {key:val for key, val in final_dict.items() if val != '/about.html'}
     return final_dict
 
 def update_dict():
     lst_to_update = extract_contents(url)
-    with open('ds_links.json','w') as f:
-        for i in lst_to_update:
-            f.write(i)
-            f.write('\n')
+    with open('ds_links.json','w',encoding='utf-8') as f:
+        json.dump(lst_to_update,f,ensure_ascii=False,indent=4)
+
