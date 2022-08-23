@@ -2,6 +2,8 @@ import json
 import requests
 import re
 import os.path
+import webbrowser
+import wget
 import diff_sorting
 from alive_progress import alive_bar #https://github.com/rsalmei/alive-progress
 from time import sleep
@@ -58,3 +60,17 @@ def update_dict():
     with open('ds_links.json','w',encoding='utf-8') as f:
         json.dump(lst_to_update,f,ensure_ascii=False,indent=4)
 
+def direct_download(url_to_download):
+        selected_url = url_to_download
+        selected_url_content= requests.get(selected_url).content
+        soup_selected = BeautifulSoup(selected_url_content,'html.parser')
+        files_url_index = soup_selected.find_all('a', href = True)
+        for i in range(1,len(files_url_index)):
+            files_url = files_url_index[i].text.strip()
+            dl_files_url = selected_url+files_url
+            wget.download(dl_files_url)
+        return
+
+def browserdl(url_to_goto):
+    webbrowser.open_new_tab(url_to_goto)
+    return
